@@ -20,7 +20,4 @@ RUN pip install --no-cache-dir \
 COPY extract_clip_features.py .
 
 
-RUN mkdir -p /app/images
-
-
 CMD ["python", "extract_clip_features.py"]

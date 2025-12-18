@@ -12,6 +12,8 @@ services:
     ports:
       - "9201:9200"
       - "9301:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
     restart: unless-stopped
 
   kibana:
@@ -25,3 +27,7 @@ services:
     depends_on:
       - elasticsearch
     restart: unless-stopped
+
+volumes:
+  elasticsearch_data:
+    driver: local
