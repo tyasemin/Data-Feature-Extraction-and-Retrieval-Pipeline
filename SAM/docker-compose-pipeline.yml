@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  sam_segment_clip:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sam_clip:latest
+    container_name: sam_segment_clip_pipeline
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - MPLBACKEND=Agg
+      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+      - OMP_NUM_THREADS=4
+      - MKL_NUM_THREADS=4
+    volumes:
+      - /home/yasemin/Desktop/personal/yüksek/homework/Data-Feature-Extraction-and-Retrieval-Pipeline:/workspace
+      - ./segmented_features:/workspace/SAM/segmented_features
+      - ./segmented_tags:/workspace/SAM/segmented_tags
+      - ./segmented_images:/workspace/SAM/segmented_images
+    working_dir: /workspace/SAM
+    command: >
+      python sam_segment_clip_pipeline.py
+      --csv /workspace/label_cleaned.csv
+      --num-images 20
+      --max-segments 5
+      --features-dir /workspace/SAM/segmented_features
+      --tags-dir /workspace/SAM/segmented_tags
+      --segments-dir /workspace/SAM/segmented_images
+      --seed 42
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+        limits:
+          memory: 8g
