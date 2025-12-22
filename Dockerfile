@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir \
     torchvision \
     pillow \
     numpy \
+    'elasticsearch>=8.0,<9.0' \
     git+https://github.com/openai/CLIP.git
 
 
