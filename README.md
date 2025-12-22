@@ -27,3 +27,4 @@ Deliverable: A hybrid search engine achieving high relevance and accuracy across
 Goal: Create an API that efficiently handles and routes diverse query types.
 
 Deliverable: A fault-tolerant API with fallback mechanisms ensuring reliable query processing.
+
