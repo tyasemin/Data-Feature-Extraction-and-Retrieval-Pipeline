@@ -2,3 +2,16 @@ dataset/*
 *.jpg
 *.csv
 *.png
+segmented_features/*
+segmented_images/*
+segmented_tags/*
+segmented_features*
+segmented_images*
+segmented_tags*
+__pycache__
+.backup_local
+features_clip_before_sam*
+*.md
+temp_test*
+test/
+zip/
