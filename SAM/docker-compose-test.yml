@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  sam_test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: sam_clip:latest
+    container_name: sam_test_inference
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - MPLBACKEND=Agg
+      - PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+    volumes:
+      # Mount the entire project directory
+      - /home/yasemin/Desktop/personal/yüksek/homework/Data-Feature-Extraction-and-Retrieval-Pipeline:/workspace
+      # Mount output directory for inference results
+      - ./sam_inference:/workspace/SAM/sam_inference
+    working_dir: /workspace/SAM
+    command: >
+      python test_sam_inference.py
+      --csv /workspace/label_cleaned.csv
+      --num-images 20
+      --output-dir /workspace/SAM/sam_inference
+      --seed 42
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
