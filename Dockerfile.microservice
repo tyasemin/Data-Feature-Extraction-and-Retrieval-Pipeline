@@ -1,0 +1,51 @@
+FROM nvidia/cuda:11.8.0-cudnn8-runtime-ubuntu22.04
+
+
+RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
+    git \
+    wget \
+    libgl1 \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN ln -sf /usr/bin/python3 /usr/bin/python
+
+WORKDIR /app
+
+RUN pip install --no-cache-dir \
+    flask \
+    torch \
+    torchvision \
+    pillow \
+    numpy \
+    opencv-python \
+    matplotlib \
+    'elasticsearch>=8.0,<9.0' \
+    git+https://github.com/openai/CLIP.git \
+    git+https://github.com/facebookresearch/segment-anything.git
+
+# Set matplotlib backend
+ENV MPLBACKEND=Agg
+
+# Download SAM checkpoint
+RUN mkdir -p /app/sam_models && \
+    wget -q https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth \
+    -O /app/sam_models/sam_vit_b_01ec64.pth
+
+
+COPY app.py .
+COPY search_with_segments.py .
+
+# Create upload directory
+RUN mkdir -p /tmp/uploads
+
+# Expose Flask port
+EXPOSE 5000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:5000/health')"
+
+CMD ["python", "app.py"]
