@@ -43,5 +43,60 @@ Examples:
 
 <img width="1057" height="416" alt="ayasofya_2" src="https://github.com/user-attachments/assets/bd5fbdb8-73d6-407d-95e3-902c00754b40" />
 
+# Usage
+
+## Run Manually
+
+In the root directory of the repository run the following for the elasitcsearch and kibana
+
+`docker compose up --build -d`
+
+Then check the services if they are working, it should be accessible on the 0.0.0.0:5602 for the kibana
+
+Build the following image for SAM+CLIP, again in the root directory of the repository
+
+`docker build -t <image_name>:0.0.1 -f Dockerfile .`
+
+Change the docker image name in the `search_with_sam_segments.sh` file where the docker run is.
+
+Example usage : `./search_with_sam_segments.sh ./selimiyecami.png hybrid 10` means hybrid search with 10 similar results
+
+## Run as Microservice
+
+In order to use the service the elasticsearch and kibana must be up and running.
+
+Build the microservice docker image with the following:
+
+`docker build -f Dockerfile.microservice -t <image_name> .`
+
+Run as microservice with the :
+
+```
+docker run -d --name sam_search_api --network host \
+  -v $(pwd):/workspace \
+  -e ES_HOST=localhost -e ES_PORT=9201 \
+  <image_name>
+```
+
+Change the docker image name and make sure elasticsearch is running on the port 9201, if its different port, change the port in the above command.
+
+Quick healt check: `curl http://localhost:5000/health`
+
+Send the request to service via:
+
+```
+curl -X POST http://localhost:5000/search/hybrid \
+  -F "image=@dikilitaş_test.png" \
+  -F "top_k=10" \
+  -F "visualize=true"
+```
+
+Change the image name to the image you want to search
+Maksimum limit is 10 for the visualization
+Set the visualization option
+
+
+
+
 
 
