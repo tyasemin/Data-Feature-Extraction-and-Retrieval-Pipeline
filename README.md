@@ -53,7 +53,7 @@ In the root directory of the repository run the following for the elasitcsearch 
 
 Then check the services if they are working, it should be accessible on the 0.0.0.0:5602 for the kibana
 
-Build the following image for SAM+CLIP, again in the root directory of the repository
+Build the following image for SAM+CLIP, again in the SAM directory of the repository
 
 `docker build -t <image_name>:0.0.1 -f Dockerfile .`
 
@@ -94,6 +94,7 @@ curl -X POST http://localhost:5000/search/hybrid \
 Change the image name to the image you want to search
 Maksimum limit is 10 for the visualization
 Set the visualization option
+
 
 
 
