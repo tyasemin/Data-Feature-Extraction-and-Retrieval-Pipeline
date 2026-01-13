@@ -6,6 +6,18 @@ By integrating database optimization, hybrid search, and API-driven architecture
  In this project's development Foto Atlas' database is used. The following examples are from their website
 https://fotoatlas.net/
 
+## Dataset Analysis
+
+
+<img width="1784" height="1182" alt="03_top_locations_metadata" src="https://github.com/user-attachments/assets/952b72bb-f319-41fc-843e-c3f0ee7e3c6d" />
+
+<img width="2078" height="1483" alt="01_top_30_tags" src="https://github.com/user-attachments/assets/491b249c-b48f-47bb-9312-a89b089c8193" />
+
+<img width="2082" height="1483" alt="08_tag_categories" src="https://github.com/user-attachments/assets/84d28b6a-ff08-4cc3-a25f-c99a3d5af139" />
+
+<img width="1784" height="882" alt="12_historical_dates_histogram" src="https://github.com/user-attachments/assets/cfb7a9de-048c-40a0-bc32-af7e8342c345" />
+
+
 ## Feature Extraction
 
 In order to find the similarity between the query image and the images from the database, feature extraction module is implemented. (OpenAI CLIP)
@@ -14,13 +26,15 @@ In order to find the similarity between the query image and the images from the 
 
 Since the dataset doesn't contain any segmentation annotations, in order to focus more localy while searching (to increase the accuracy) SAM is used to generate the segments.
 
-Segment Examples
+<img width="2442" height="1483" alt="20k002170_sam_inference" src="https://github.com/user-attachments/assets/d0e3cc3e-7161-4855-a9b7-1e7bd7ca3ea2" />
 
-| Raw Image | Segment1 | Segment2 | Segment3 | Segment 4 | Segment 5
-| :--- | :--- | :---: | :--- | :---: |  :---: |
-<img width="389" height="527" alt="sam_seg_ex" src="https://github.com/user-attachments/assets/ef732af1-f9e6-41c6-9929-443a4790a071" /> | <img width="508" height="531" alt="seg_part_1" src="https://github.com/user-attachments/assets/3478b9c4-7197-4bb2-b19d-c0a57933a939" /> |<img width="72" height="529" alt="Screenshot from 2025-12-28 19-17-15" src="https://github.com/user-attachments/assets/90092eea-5256-4b93-92ac-0d135eb9bdcf" /> | <img width="80" height="235" alt="Screenshot from 2025-12-28 19-17-24" src="https://github.com/user-attachments/assets/aa89fb6a-a0fc-4e01-8f46-e8406dd5d9af" /> | <img width="121" height="135" alt="Screenshot from 2025-12-28 19-17-32" src="https://github.com/user-attachments/assets/580682c9-760c-4edb-870e-3634b5afbb1b" /> | <img width="111" height="53" alt="Screenshot from 2025-12-28 19-17-39" src="https://github.com/user-attachments/assets/1963da66-24ef-45fa-89f0-fb87aa275713" />
+<img width="2438" height="1483" alt="20k003277_sam_inference" src="https://github.com/user-attachments/assets/6b9af29a-d0ea-4a33-be85-ad6e2b18a423" />
 
+<img width="2985" height="1395" alt="gri_96_r_14_b112_pp9_007_r_sam_inference" src="https://github.com/user-attachments/assets/3e6e7a69-117e-4508-96a3-cc11526b7b80" />
 
+Along with the segments, tag are generated via OpenAI CLIP from the segments
+
+<img width="347" height="423" alt="Screenshot from 2026-01-13 23-43-08" src="https://github.com/user-attachments/assets/f8f49a33-1af7-4f09-a7ad-b7c5a0e867f6" />
 
 
 ## Hybrid Search
@@ -94,6 +108,7 @@ curl -X POST http://localhost:5000/search/hybrid \
 Change the image name to the image you want to search
 Maksimum limit is 10 for the visualization
 Set the visualization option
+
 
 
 
